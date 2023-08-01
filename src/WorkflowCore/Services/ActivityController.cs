@@ -3,6 +3,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 using WorkflowCore.Exceptions;
 using WorkflowCore.Interface;
@@ -16,17 +19,21 @@ namespace WorkflowCore.Services
         private readonly IDistributedLockProvider _lockProvider;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IWorkflowController _workflowController;
+        private readonly ILogger< ActivityController > _logger;
 
-        public ActivityController(ISubscriptionRepository subscriptionRepository, IWorkflowController workflowController, IDateTimeProvider dateTimeProvider, IDistributedLockProvider lockProvider)
+        public ActivityController(ISubscriptionRepository subscriptionRepository, IWorkflowController workflowController, IDateTimeProvider dateTimeProvider, IDistributedLockProvider lockProvider, ILogger< ActivityController > logger)
         {
             _subscriptionRepository = subscriptionRepository;
             _dateTimeProvider = dateTimeProvider;
             _lockProvider = lockProvider;
+            _logger = logger;
             _workflowController = workflowController;
         }
         
         public async Task<PendingActivity> GetPendingActivity(string activityName, string workerId, TimeSpan? timeout = null)
         {
+            _logger.LogDebug( "Get pending activity {activityName} for worker {workerId}", activityName, workerId );
+
             var endTime = _dateTimeProvider.UtcNow.Add(timeout ?? TimeSpan.Zero);
             var firstPass = true;
             EventSubscription subscription = null;

@@ -205,6 +205,8 @@ namespace WorkflowCore.Services
             {
                 var wf = await _persistenceStore.GetWorkflowInstance(workflowId);
 
+                _logger.LogDebug( "Terminating workflow {Id}", wf.Id );
+
                 wf.Status = WorkflowStatus.Terminated;
                 wf.CompleteTime = _dateTimeProvider.UtcNow;
 

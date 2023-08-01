@@ -39,6 +39,8 @@ namespace WorkflowCore.Services
 
                     foreach (var ptr in toCancel)
                     {
+                        _logger.LogDebug( "Cancelling pointer {id}", ptr.Id );
+
                         if (step.ProceedOnCancel)
                         {
                             _executionResultProcessor.ProcessExecutionResult(workflow, workflowDef, ptr, step, ExecutionResult.Next(), executionResult);

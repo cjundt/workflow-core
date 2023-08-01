@@ -63,6 +63,7 @@ namespace WorkflowCore.Services
             }
             catch (Exception exception)
             {
+                //TODO cjundt [29/06/2023] log exception
                 var errorHandlerType = middlewareErrorType ?? typeof(IWorkflowMiddlewareErrorHandler);
 
                 using (var scope = _serviceProvider.CreateScope())

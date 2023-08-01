@@ -15,6 +15,7 @@ namespace WorkflowCore.Services.BackgroundTasks
         private readonly IPersistenceProvider _persistenceStore;
         private readonly IWorkflowExecutor _executor;
         private readonly IGreyList _greylist;
+        private readonly ILogger _logger;
 
         protected override int MaxConcurrentItems => Options.MaxConcurrentWorkflows;
         protected override QueueType Queue => QueueType.Workflow;
@@ -27,6 +28,7 @@ namespace WorkflowCore.Services.BackgroundTasks
             _executor = executor;
             _lockProvider = lockProvider;
             _datetimeProvider = datetimeProvider;
+            _logger = loggerFactory.CreateLogger< WorkflowConsumer >( );
         }
 
         protected override async Task ProcessItem(string itemId, CancellationToken cancellationToken)
@@ -100,6 +102,8 @@ namespace WorkflowCore.Services.BackgroundTasks
 
         private async Task TryProcessSubscription(EventSubscription subscription, IPersistenceProvider persistenceStore, CancellationToken cancellationToken)
         {
+            _logger.LogDebug( "Processing subscription {Id} for event {EventName}", subscription.Id, subscription.EventName );
+
             if (subscription.EventName != Event.EventTypeActivity)
             {
                 var events = await persistenceStore.GetEvents(subscription.EventName, subscription.EventKey, subscription.SubscribeAsOf, cancellationToken);

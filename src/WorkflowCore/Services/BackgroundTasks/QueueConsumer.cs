@@ -118,6 +118,7 @@ namespace WorkflowCore.Services.BackgroundTasks
                 }
                 catch (OperationCanceledException)
                 {
+                    Logger.LogInformation($"Operation cancelled");
                 }
                 catch (Exception ex)
                 {

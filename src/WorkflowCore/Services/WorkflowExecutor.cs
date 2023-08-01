@@ -116,6 +116,7 @@ namespace WorkflowCore.Services
                 case ExecutionPipelineDirective.Defer:
                     return false;
                 case ExecutionPipelineDirective.EndWorkflow:
+                    _logger.LogDebug( "Workflow {Id} completed", workflow.Id );
                     workflow.Status = WorkflowStatus.Complete;
                     workflow.CompleteTime = _datetimeProvider.UtcNow;
                     return false;
@@ -185,6 +186,7 @@ namespace WorkflowCore.Services
                     case ExecutionPipelineDirective.Defer:
                         return;
                     case ExecutionPipelineDirective.EndWorkflow:
+                        _logger.LogDebug( "Workflow {Id} completed", workflow.Id );
                         workflow.Status = WorkflowStatus.Complete;
                         workflow.CompleteTime = _datetimeProvider.UtcNow;
                         return;
@@ -256,6 +258,7 @@ namespace WorkflowCore.Services
                 return;
             }
 
+            _logger.LogDebug( "Workflow {Id} completed", workflow.Id );
             workflow.Status = WorkflowStatus.Complete;
             workflow.CompleteTime = _datetimeProvider.UtcNow;
 
