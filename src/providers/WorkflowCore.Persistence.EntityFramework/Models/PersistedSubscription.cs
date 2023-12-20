@@ -30,7 +30,7 @@ namespace WorkflowCore.Persistence.EntityFramework.Models
 
         public string SubscriptionData { get; set; }
         
-        [MaxLength(200)]
+        [MaxLength(400)]
         public string ExternalToken { get; set; }
         
         [MaxLength(200)]
