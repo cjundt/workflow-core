@@ -11,12 +11,16 @@ using WorkflowCore.Models;
 namespace WorkflowCore.Testing
 {
     public abstract class WorkflowTest<TWorkflow, TData> : IDisposable
-        where TWorkflow : IWorkflow<TData>, new()
+        where TWorkflow : IWorkflow<TData>
         where TData : class, new()
     {
         protected IWorkflowHost Host;
         protected IPersistenceProvider PersistenceProvider;
         protected List<StepError> UnhandledStepErrors = new List<StepError>();
+        /// <summary>
+        /// Workflow definition id
+        /// </summary>
+        private string _defId;
 
         protected virtual void Setup()
         {
@@ -27,10 +31,14 @@ namespace WorkflowCore.Testing
 
             var serviceProvider = services.BuildServiceProvider();
 
+            var wf = ActivatorUtilities.CreateInstance<TWorkflow>(serviceProvider);
+            _defId = wf.Id;
+
             PersistenceProvider = serviceProvider.GetService<IPersistenceProvider>();
             Host = serviceProvider.GetService<IWorkflowHost>();
             Host.RegisterWorkflow<TWorkflow, TData>();
             Host.OnStepError += Host_OnStepError;
+
             Host.Start();
         }
 
@@ -51,15 +59,13 @@ namespace WorkflowCore.Testing
 
         public string StartWorkflow(TData data)
         {
-            var def = new TWorkflow();
-            var workflowId = Host.StartWorkflow<TData>(def.Id, data).Result;
+            var workflowId = Host.StartWorkflow<TData>(_defId, data).Result;
             return workflowId;
         }
 
         public async Task<string> StartWorkflowAsync(TData data)
         {
-            var def = new TWorkflow();
-            var workflowId = await Host.StartWorkflow(def.Id, data);
+            var workflowId = await Host.StartWorkflow(_defId, data);
             return workflowId;
         }
 
