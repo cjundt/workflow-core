@@ -22,7 +22,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("WorkflowCore.Persistence.EntityFramework.Models.PersistedEvent", b =>
                 {
@@ -30,7 +30,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<string>("EventData")
                         .HasColumnType("nvarchar(max)");
@@ -72,7 +72,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<DateTime>("ErrorTime")
                         .HasColumnType("datetime2");
@@ -99,7 +99,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -179,7 +179,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<string>("AttributeKey")
                         .HasMaxLength(100)
@@ -204,7 +204,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<string>("CommandName")
                         .HasMaxLength(200)
@@ -234,7 +234,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<string>("EventKey")
                         .HasMaxLength(200)
@@ -294,7 +294,7 @@ namespace WorkflowCore.Persistence.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PersistenceId"));
 
                     b.Property<DateTime?>("CompleteTime")
                         .HasColumnType("datetime2");
