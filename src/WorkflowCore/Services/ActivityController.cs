@@ -41,7 +41,7 @@ namespace WorkflowCore.Services
             {
                 if (!firstPass)
                     await Task.Delay(100);
-                subscription = await _subscriptionRepository.GetFirstOpenSubscription(Event.EventTypeActivity, activityName, _dateTimeProvider.Now);
+                subscription = await _subscriptionRepository.GetFirstOpenSubscription(Event.EventTypeActivity, activityName, _dateTimeProvider.UtcNow);
                 if (subscription != null)
                     if (!await _lockProvider.AcquireLock($"sub:{subscription.Id}", CancellationToken.None))
                         subscription = null;
@@ -58,7 +58,7 @@ namespace WorkflowCore.Services
                     Token = token.Encode(),
                     ActivityName = subscription.EventKey,
                     Parameters = subscription.SubscriptionData,
-                    TokenExpiry = DateTime.MaxValue
+                    TokenExpiry = new DateTime(DateTime.MaxValue.Ticks, DateTimeKind.Utc)
                 };
 
                 if (!await _subscriptionRepository.SetSubscriptionToken(subscription.Id, result.Token, workerId, result.TokenExpiry))
